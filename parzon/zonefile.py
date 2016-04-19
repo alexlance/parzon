@@ -2,12 +2,14 @@
 import sys
 import re
 
+
 class ZoneFile(object):
     """ Model a DNS Zonefile and provide mechanisms to patch it up into something usable. """
     origin = ''
     ttl = 0
     records = []
     debug = False
+
     def __init__(self, path, debug=False):
         """ Parse the zonefile into a more usable format.
 
@@ -135,4 +137,3 @@ class ZoneFile(object):
             if search == v[field]:
                 shortlist.append(k)
         return shortlist
-
