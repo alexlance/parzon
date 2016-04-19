@@ -12,8 +12,8 @@ attempts to break down the components of the file and provide an interface for q
 
 ### Features
 
-* Does a reverse dns lookup for CNAMES based on an IP address for input - using only a given zonefile.
-  Outputs the CNAMES.
+* Does a reverse dns lookup for CNAMES based on an IP address for input - using only the given zonefile,
+  and outputs the CNAMES.
 
 * Monkey patches resource records in zonefiles, so you can see what's going on a little clearer (-d)
 
@@ -27,7 +27,9 @@ And take a quick look at the options:
 > python -m parzon --help
 
 Note: if you run *python setup.py install --user* it will build a standalone
-parzon binary in ~/.local/bin/.
+parzon binary in ~/.local/bin/. Then you can just invoke it like:
+
+> parzon -a <IPADDRESS> path/to/zonefile
 
 
 ### More info...
