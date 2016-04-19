@@ -1,3 +1,4 @@
+""" Wrapper to enable executable entrypoint for program. """
 from setuptools import setup
 
 setup(name='parzon',
@@ -8,4 +9,4 @@ setup(name='parzon',
               'parzon = parzon.__main__:main'
           ]
       },
-      )
+     )

@@ -1,9 +1,6 @@
 """ parzon, dns zone file parsing """
 
 import argparse
-import sys
-import os
-import re
 from parzon.zonefile import ZoneFile
 
 
@@ -28,14 +25,14 @@ def main():
     # of a resource record (the IP address of A records)
     results = []
     results += z.search_via_field('data', options.address)
-    
+
     # If found some names, then search again for records using those names
     for k in results:
         results += z.search_via_field('data', z.records[k]['name'])
         results += z.search_via_field('data', "{}.{}".format(z.records[k]['name'], z.origin))
 
     # And then search on those results too. This could have all been made into
-    # a recursive search, but I'm playing it safe - going to assume there are 
+    # a recursive search, but I'm playing it safe - going to assume there are
     # zonefiles out there that would have sufficient complexity (or errors) that
     # would make debugging a recursive solution a bit of a nightmare.
     for k in results:
@@ -52,7 +49,7 @@ def main():
             else:
                 print "{}".format(z.origin[:-1])
 
-  
+
 
 
 if __name__ == "__main__":
