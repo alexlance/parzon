@@ -20,7 +20,7 @@ attempts to break down the components of the file and provide an interface for q
 
 ### Quick start
 
-> python -m parzon -a <IPADDRESS> path/to/zonefile
+> python -m parzon -a IPADDRESS path/to/zonefile
 
 And take a quick look at the options:
 
