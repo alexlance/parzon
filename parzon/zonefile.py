@@ -42,22 +42,18 @@ class ZoneFile(object):
         if not len(self._records):
             self.parse()
 
+        # search and build up list of indexes relating to matches
         results = []
         results += self._search_via_field(self._FDATA, address)
-
-        # If found some names, then search again for records using those names
         for k in results:
             results += self._search_via_field(self._FDATA, self._records[k][self._FNAME])
             results += self._search_via_field(self._FDATA, "{}.{}".format(self._records[k][self._FNAME], self._origin))
-
-        # And then search on those results too.
         for k in results:
             results += self._search_via_field(self._FDATA, self._records[k][self._FNAME])
 
         # uniquify list
         results = list(set(results))
 
-        # return results
         rtn = []
         for i in results:
             if self._records[i][self._FTYPE] == 'CNAME':
@@ -136,9 +132,6 @@ class ZoneFile(object):
         current_name = ''
         for line in text.split("\n"):
 
-            # remove trailing space
-            line = line.rstrip()
-
             # skip past the directives
             if any(word in line for word in ['$ORIGIN ', '$TTL ', '$INCLUDE ', '$GENERATE ']):
                 continue
@@ -148,10 +141,10 @@ class ZoneFile(object):
                 continue
 
             # break up the line into a fields list, splitting on whitespace
-            fields = re.split(r'\s+', line)
+            fields = re.split(r'\s+', line.rstrip())
 
-            # if line starts with a space, and has other things on the line, then inherit previous name
-            if line[0] in [' ', r'\t'] and re.search(r'\w+', line[1:]) and len(current_name):
+            # if line starts with a space, then inherit previous name
+            if line[0] in [' ', r'\t'] and len(current_name):
                 fields[self._FNAME] = current_name
             else:
                 current_name = fields[self._FNAME]
