@@ -6,7 +6,9 @@ from parzon.zonefile import ZoneFile
 
 def get_options():
     """ Setup the command line arguments. """
-    parser = argparse.ArgumentParser(prog='parzon', description='Given an IP address and a DNS zonefile, perform reverse DNS search on the file')
+    parser = argparse.ArgumentParser(prog='parzon',
+                        description='Given an IP address and a DNS zonefile, \
+                                     perform reverse DNS search on the file')
     parser.add_argument('ZONEFILE', type=str,
                         help='The path to the zonefile that you want to parse')
     parser.add_argument('-a', dest='address', type=str, required=True,
