@@ -22,34 +22,10 @@ def main():
     """ Do a reverse dns lookup using only a zonefile. """
     options = get_options()
     z = ZoneFile(options.ZONEFILE, options.debug)
-
-    # Gather results from zonefile, doing a lookup on the last field
-    # of a resource record (the IP address of A records)
-    results = []
-    results += z.search_via_field('data', options.address)
-
-    # If found some names, then search again for records using those names
-    for k in results:
-        results += z.search_via_field('data', z.records[k]['name'])
-        results += z.search_via_field('data', "{}.{}".format(z.records[k]['name'], z.origin))
-
-    # And then search on those results too. This could have all been made into
-    # a recursive search, but I'm playing it safe - going to assume there are
-    # zonefiles out there that would have sufficient complexity (or errors) that
-    # would make debugging a recursive solution a bit of a nightmare.
-    for k in results:
-        results += z.search_via_field('data', z.records[k]['name'])
-
-    # uniquify
-    results = list(set(results))
-
-    # print results
+    z.parse()
+    results = z.get_cnames_from_ip(options.address)
     for i in results:
-        if z.records[i]['type'] == 'CNAME':
-            if z.records[i]['name'] != z.origin:
-                print "{}.{}".format(z.records[i]['name'], z.origin[:-1])
-            else:
-                print "{}".format(z.origin[:-1])
+        print i
 
 
 if __name__ == "__main__":
